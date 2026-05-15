@@ -69,12 +69,12 @@ Copy `.env.example` to `.env` in the project root:
 ```env
 # Backend Server
 API_HOST=0.0.0.0
-API_PORT=8000
+API_PORT=7860
 ALLOWED_ORIGINS=["*"]
 OPENAI_API_KEY=your_openai_api_key_here
 
 # Frontend Configuration
-NEXT_PUBLIC_API_URL=http://localhost:8000
+NEXT_PUBLIC_API_URL=http://localhost:7860
 
 # Observability Configuration
 GRAFANA_PASSWORD=admin
@@ -97,7 +97,7 @@ docker-compose logs -f
 
 ### Accessing Local Services
 - **Dashboard UI**: [http://localhost:3000](http://localhost:3000)
-- **FastAPI Swagger Docs**: [http://localhost:8000/api/docs](http://localhost:8000/api/docs)
+- **FastAPI Swagger Docs**: [http://localhost:7860/api/docs](http://localhost:7860/api/docs)
 - **Grafana Observability**: [http://localhost:3001](http://localhost:3001) *(Login: admin/admin)*
 - **Prometheus**: [http://localhost:9090](http://localhost:9090)
 

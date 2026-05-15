@@ -35,6 +35,15 @@ app.include_router(cycles.router,  prefix="/cycles",  tags=["Cyclical Metadata"]
 app.include_router(signals.router, prefix="/signals", tags=["Signal Overlays"])
 
 
+@app.get("/", tags=["Health"])
+async def root():
+    return {
+        "message": "Market Intelligence API is live on Hugging Face Spaces",
+        "docs": "/api/docs",
+        "health": "/health",
+        "status": "operational"
+    }
+
 @app.get("/health", tags=["Health"])
 async def health_check():
     return {

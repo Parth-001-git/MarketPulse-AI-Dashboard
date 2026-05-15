@@ -1,0 +1,143 @@
+--- Logging error ---
+Traceback (most recent call last):
+  File "/home/parth/project/backend/.venv/lib/python3.14/site-packages/urllib3/connection.py", line 204, in _new_conn
+    sock = connection.create_connection(
+        (self._dns_host, self.port),
+    ...<2 lines>...
+        socket_options=self.socket_options,
+    )
+  File "/home/parth/project/backend/.venv/lib/python3.14/site-packages/urllib3/util/connection.py", line 60, in create_connection
+    for res in socket.getaddrinfo(host, port, family, socket.SOCK_STREAM):
+               ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/socket.py", line 983, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+               ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+socket.gaierror: [Errno -3] Temporary failure in name resolution
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/parth/project/backend/.venv/lib/python3.14/site-packages/urllib3/connectionpool.py", line 788, in urlopen
+    response = self._make_request(
+        conn,
+    ...<10 lines>...
+        **response_kw,
+    )
+  File "/home/parth/project/backend/.venv/lib/python3.14/site-packages/urllib3/connectionpool.py", line 493, in _make_request
+    conn.request(
+    ~~~~~~~~~~~~^
+        method,
+        ^^^^^^^
+    ...<6 lines>...
+        enforce_content_length=enforce_content_length,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/parth/project/backend/.venv/lib/python3.14/site-packages/urllib3/connection.py", line 500, in request
+    self.endheaders()
+    ~~~~~~~~~~~~~~~^^
+  File "/usr/lib/python3.14/http/client.py", line 1353, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/http/client.py", line 1113, in _send_output
+    self.send(msg)
+    ~~~~~~~~~^^^^^
+  File "/usr/lib/python3.14/http/client.py", line 1057, in send
+    self.connect()
+    ~~~~~~~~~~~~^^
+  File "/home/parth/project/backend/.venv/lib/python3.14/site-packages/urllib3/connection.py", line 331, in connect
+    self.sock = self._new_conn()
+                ~~~~~~~~~~~~~~^^
+  File "/home/parth/project/backend/.venv/lib/python3.14/site-packages/urllib3/connection.py", line 211, in _new_conn
+    raise NameResolutionError(self.host, self, e) from e
+urllib3.exceptions.NameResolutionError: HTTPConnection(host='loki', port=3100): Failed to resolve 'loki' ([Errno -3] Temporary failure in name resolution)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/parth/project/backend/.venv/lib/python3.14/site-packages/requests/adapters.py", line 696, in send
+    resp = conn.urlopen(
+        method=request.method,
+    ...<9 lines>...
+        chunked=chunked,
+    )
+  File "/home/parth/project/backend/.venv/lib/python3.14/site-packages/urllib3/connectionpool.py", line 842, in urlopen
+    retries = retries.increment(
+        method, url, error=new_e, _pool=self, _stacktrace=sys.exc_info()[2]
+    )
+  File "/home/parth/project/backend/.venv/lib/python3.14/site-packages/urllib3/util/retry.py", line 543, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='loki', port=3100): Max retries exceeded with url: /loki/api/v1/push (Caused by NameResolutionError("HTTPConnection(host='loki', port=3100): Failed to resolve 'loki' ([Errno -3] Temporary failure in name resolution)"))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/parth/project/backend/.venv/lib/python3.14/site-packages/logging_loki/handlers.py", line 81, in emit
+    self.emitter(record, self.format(record))
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/parth/project/backend/.venv/lib/python3.14/site-packages/logging_loki/emitter.py", line 55, in __call__
+    resp = self.session.post(self.url, json=payload)
+  File "/home/parth/project/backend/.venv/lib/python3.14/site-packages/requests/sessions.py", line 712, in post
+    return self.request("POST", url, data=data, json=json, **kwargs)
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/parth/project/backend/.venv/lib/python3.14/site-packages/requests/sessions.py", line 651, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/home/parth/project/backend/.venv/lib/python3.14/site-packages/requests/sessions.py", line 784, in send
+    r = adapter.send(request, **kwargs)
+  File "/home/parth/project/backend/.venv/lib/python3.14/site-packages/requests/adapters.py", line 729, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='loki', port=3100): Max retries exceeded with url: /loki/api/v1/push (Caused by NameResolutionError("HTTPConnection(host='loki', port=3100): Failed to resolve 'loki' ([Errno -3] Temporary failure in name resolution)"))
+Call stack:
+  File "/home/parth/project/backend/.venv/bin/uvicorn", line 8, in <module>
+    sys.exit(main())
+  File "/home/parth/project/backend/.venv/lib/python3.14/site-packages/click/core.py", line 1514, in __call__
+    return self.main(*args, **kwargs)
+  File "/home/parth/project/backend/.venv/lib/python3.14/site-packages/click/core.py", line 1435, in main
+    rv = self.invoke(ctx)
+  File "/home/parth/project/backend/.venv/lib/python3.14/site-packages/click/core.py", line 1298, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+  File "/home/parth/project/backend/.venv/lib/python3.14/site-packages/click/core.py", line 853, in invoke
+    return callback(*args, **kwargs)
+  File "/home/parth/project/backend/.venv/lib/python3.14/site-packages/uvicorn/main.py", line 441, in main
+    run(
+  File "/home/parth/project/backend/.venv/lib/python3.14/site-packages/uvicorn/main.py", line 609, in run
+    config.load_app()
+  File "/home/parth/project/backend/.venv/lib/python3.14/site-packages/uvicorn/config.py", line 415, in load_app
+    return import_from_string(self.app)
+  File "/home/parth/project/backend/.venv/lib/python3.14/site-packages/uvicorn/importer.py", line 19, in import_from_string
+    module = importlib.import_module(module_str)
+  File "/usr/lib/python3.14/importlib/__init__.py", line 88, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1406, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1371, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1342, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 938, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 759, in exec_module
+  File "<frozen importlib._bootstrap>", line 491, in _call_with_frames_removed
+  File "/home/parth/project/backend/app/main.py", line 30, in <module>
+    setup_observability(app)
+  File "/home/parth/project/backend/app/core/observability.py", line 52, in setup_observability
+    logging.info("Loki logging handler configured successfully.")
+  File "/usr/lib/python3.14/logging/__init__.py", line 2197, in info
+    root.info(msg, *args, **kwargs)
+  File "/usr/lib/python3.14/logging/__init__.py", line 1520, in info
+    self._log(INFO, msg, args, **kwargs)
+  File "/usr/lib/python3.14/logging/__init__.py", line 1665, in _log
+    self.handle(record)
+  File "/usr/lib/python3.14/logging/__init__.py", line 1681, in handle
+    self.callHandlers(record)
+  File "/usr/lib/python3.14/logging/__init__.py", line 1737, in callHandlers
+    hdlr.handle(record)
+  File "/usr/lib/python3.14/logging/__init__.py", line 1027, in handle
+    self.emit(record)
+  File "/home/parth/project/backend/.venv/lib/python3.14/site-packages/logging_loki/handlers.py", line 83, in emit
+    self.handleError(record)
+Message: 'Loki logging handler configured successfully.'
+Arguments: ()
+INFO:     Started server process [114337]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+ERROR:    [Errno 98] error while attempting to bind on address ('0.0.0.0', 7860): address already in use
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
