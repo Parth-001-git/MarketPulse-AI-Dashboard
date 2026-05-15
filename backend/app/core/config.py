@@ -5,7 +5,7 @@ from typing import List
 class Settings(BaseSettings):
     # API
     API_HOST: str = "0.0.0.0"
-    API_PORT: int = 8000
+    API_PORT: int = 7860
 
     # CORS
     # For production, set this to your Vercel URL, e.g. ["https://my-dashboard.vercel.app"]

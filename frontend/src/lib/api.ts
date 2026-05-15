@@ -6,7 +6,7 @@
 import { MarketDataResponse } from '@/types/market';
 import { InsightResponse } from '@/types/insights';
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8000';
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:7860';
 
 class ApiError extends Error {
   constructor(
