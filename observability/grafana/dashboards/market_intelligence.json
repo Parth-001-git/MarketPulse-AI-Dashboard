@@ -1,0 +1,104 @@
+{
+  "title": "Market Intelligence Operations",
+  "uid": "market-ops",
+  "refresh": "5s",
+  "panels": [
+    {
+      "type": "stat",
+      "title": "Total API Requests",
+      "gridPos": { "h": 4, "w": 6, "x": 0, "y": 0 },
+      "targets": [
+        {
+          "expr": "sum(http_requests_total)",
+          "refId": "A"
+        }
+      ],
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto"
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Error Rate (5xx)",
+      "gridPos": { "h": 4, "w": 6, "x": 6, "y": 0 },
+      "targets": [
+        {
+          "expr": "sum(rate(http_requests_total{status=~\"5..\"}[5m])) / sum(rate(http_requests_total[5m])) * 100",
+          "refId": "A"
+        }
+      ],
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto"
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Avg Latency (ms)",
+      "gridPos": { "h": 4, "w": 6, "x": 12, "y": 0 },
+      "targets": [
+        {
+          "expr": "sum(rate(http_request_duration_seconds_sum[5m])) / sum(rate(http_request_duration_seconds_count[5m])) * 1000",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "Request Throughput",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 4 },
+      "targets": [
+        {
+          "expr": "sum by (handler) (rate(http_requests_total[1m]))",
+          "legendFormat": "{{handler}}",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "Processing Durations",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 4 },
+      "targets": [
+        {
+          "expr": "rate(market_fetch_duration_seconds_sum[1m]) / rate(market_fetch_duration_seconds_count[1m])",
+          "legendFormat": "Market Fetch",
+          "refId": "A"
+        },
+        {
+          "expr": "rate(ai_insight_duration_seconds_sum[1m]) / rate(ai_insight_duration_seconds_count[1m])",
+          "legendFormat": "AI Generation",
+          "refId": "B"
+        },
+        {
+          "expr": "rate(cycle_process_duration_seconds_sum[1m]) / rate(cycle_process_duration_seconds_count[1m])",
+          "legendFormat": "Cycle Processing",
+          "refId": "C"
+        }
+      ]
+    },
+    {
+      "type": "logs",
+      "title": "System Logs (Loki)",
+      "gridPos": { "h": 10, "w": 24, "x": 0, "y": 12 },
+      "targets": [
+        {
+          "datasource": { "type": "loki", "uid": "Loki" },
+          "expr": "{application=\"market-intelligence-api\"} |= \"\"",
+          "refId": "A"
+        }
+      ],
+      "options": {
+        "showTime": true,
+        "showLabels": false,
+        "wrapLogMessage": true,
+        "sortOrder": "Descending"
+      }
+    }
+  ],
+  "schemaVersion": 38,
+  "timezone": "browser"
+}
